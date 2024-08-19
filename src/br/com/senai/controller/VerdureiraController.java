@@ -17,15 +17,16 @@ public class VerdureiraController {
         verdureiraService.listarProdutos(produtos);
     }
 
-    public void buscarProduto(){
-
+    public VerdureiraEntity buscarProduto(int id, List<VerdureiraEntity> produtos){
+        return verdureiraService.buscarProduto(id, produtos);
     }
 
     public VerdureiraEntity editarProduto(VerdureiraEntity verdureiraEntity){
         return verdureiraService.editarProduto(verdureiraEntity);
     }
 
-    public void removerProduto(){
+    public void removerProduto(List<VerdureiraEntity> listaProdutos, int id){
+        verdureiraService.removerProduto(listaProdutos, id);
 
     }
 }

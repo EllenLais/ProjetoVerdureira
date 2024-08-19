@@ -68,39 +68,59 @@ public class ProgramaPrincipal {
 
                 case 3:
                     System.out.println("---Buscar Produtos---");
-                    System.out.println("Digite o ID do produto:");
-                    int idB = tec.nextInt();
+                    System.out.println("Informe o ID do produto desejado: ");
+                    int id = tec.nextInt();
+                    VerdureiraEntity produtoBuscado = verdureiraController.buscarProduto(id, produtos);
+                    if (produtoBuscado != null){
+                        System.out.println("Produto encontrado: " + produtoBuscado.getProduto());
+                        System.out.println("Quantidade: " + produtoBuscado.getQntd());
+                        System.out.println("Valor unitário: R$" + produtoBuscado.getValorUnit());
+                    }else{
+                        System.out.println("Produto não encontrado!!");
+                    }
+
                     break;
 
-                        case 4:
-                            System.out.println("---Editar Produto---");
-                            System.out.print("Informe o id do produto:  ");
-                            int id = tec.nextInt();
-                            if (id >= produtos.size() || id < 0) {
-                                System.out.println("Produto não cadastrado!!!!!");
-                                break;
-                            }
-                            VerdureiraEntity verdureiraEntityEdit = produtos.get(id);
-                            VerdureiraEntity produtoEditado = verdureiraController.editarProduto(verdureiraEntityEdit);
-                            produtos.set(id, produtoEditado);
-                            break;
+                case 4:
+                    System.out.println("---Editar Produto---");
+                    System.out.print("Informe o id do produto:  ");
+                    int idE = tec.nextInt();
+                    if (idE >= produtos.size() || idE < 0) {
+                        System.out.println("Produto não cadastrado!!!!!");
+                        break;
+                    }
+                    VerdureiraEntity verdureiraEntityEdit = produtos.get(idE);
+                    VerdureiraEntity produtoEditado = verdureiraController.editarProduto(verdureiraEntityEdit);
+                    produtos.set(idE, produtoEditado);
+                    break;
 
-                        case 5:
-                            System.out.println("---Excluir Produto---");
-                            break;
+                    case 5:
+                        System.out.println("---Excluir Produto---");
+                        System.out.println("Digite o ID a ser removido: ");
+                        int idEP = tec.nextInt();
 
-                        case 6:
-                            repetir = false;
-                            break;
+                        if (idEP >= 0 && idEP < produtos.size()){
+                            VerdureiraEntity produtoRemovido = produtos.remove(idEP);
+                            qntdEstoque -= produtoRemovido.getQntd();
+                            valorEstoque -= produtoRemovido.getValorUnit() * produtoRemovido.getQntd();
+                            System.out.println("Produto removido com sucesso!");
+                        }else{
+                            System.out.println("Nenhum item com o ID informado!!");
+                        }
+                        break;
 
-                        default:
-                            System.out.println("Opção inválida, favor tentar novamente!!");
-                            break;
+                    case 6:
+                        repetir = false;
+                        System.out.println("SISTEMA ENCERRADO!!");
+                        tec.close();
+                        System.exit(0);
+                        break;
+
+                    default:
+                        System.out.println("Opção inválida, favor tentar novamente!!");
+                        break;
                     }
             }
-            while (repetir) ;
-
-            System.out.println("SISTEMA ENCERRADO!!");
-            tec.close();
+            while (repetir);
         }
 }
